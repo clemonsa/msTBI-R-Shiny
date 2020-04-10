@@ -3,7 +3,7 @@ server= function(input, output) { }
 ui <- fluidPage(
   titlePanel(h1(strong("Predicting seizure events in moderate-to-severe TBI"))),
   mainPanel(
-    p("Arvon Clemens, Felix Proessl, Dominic DiSanto")),
+    p("Arvon Clemons II, Felix Proessl, Dominic DiSanto")),
     
   fluidRow(
     
