@@ -62,7 +62,7 @@ server3 <- function(input, output){
         ggtitle('Proportion "1" results')
     }
     else{
-      ggplot(df2, aes(x=v2)) + geom_histogram(aes(y=..count..), colour='black', fill='dodgerblue4', bins = 6) +
+      ggplot(df2, aes(x=v2)) + geom_histogram(aes(y=..density..), colour='black', fill='dodgerblue4', bins = 6) +
                xlab('Die Results') + ggtitle('Proportion of Die Results')
     }
   })
