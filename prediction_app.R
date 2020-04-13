@@ -1,40 +1,54 @@
 library(shiny)
-server= function(input, output) { }
-ui <- fluidPage(
+
+ui <-  fluidPage(
   titlePanel(h1(strong("Predicting seizure events in moderate-to-severe TBI"))),
-  mainPanel(
-    p("Arvon Clemons II, Felix Proessl, Dominic DiSanto")),
+  titlePanel(h3("Arvon Clemens, Felix Proessl, Dominic DiSanto")),
+  
+sidebarLayout(
+  sidebarPanel(
     
-  fluidRow(
-    
-    column(5,
            h2(strong("Input Dashboard")),
            h3(strong("Imaging Data")),
-           checkboxInput("checkbox", label = "None", value = TRUE),
-           checkboxInput("checkbox", label = "None", value = TRUE),
+           checkboxInput("sdh", label = "Subdural Hematoma?", value = NULL),
+           checkboxInput("ctfrag", label = "Intracranial Fragments?", value = NULL),
            
-           numericInput("num",
+           numericInput("contusions",
                         label = h3(strong("Number of present contusions in CT imaging")),
-                        value = 1),
-           checkboxInput("checkbox", label = ">4", value = TRUE),
-    
+                        value = NULL),
+           checkboxInput("contusions_greater4", label = ">4", value = NULL),
+           
            
            h3(strong("Injury/Hospitalization Information")),
-           checkboxInput("checkbox", label = "Post-traumatic amnesia > 24h?", value = TRUE),
-           checkboxInput("checkbox", label = "GCS < 8?", value = TRUE),
-           checkboxInput("checkbox", label = "Days to follow commands > 7?", value = TRUE),
+           checkboxInput("pta", label = "Post-traumatic amnesia > 24h?", value = NULL),
+           checkboxInput("gcs", label = "GCS < 8?", value = NULL),
+           checkboxInput("ttfc", label = "Days to follow commands > 7?", value = NULL),
            
-           checkboxInput("checkbox", label = "Alcohol present at time of hospitalization?", value = TRUE),
-           checkboxInput("checkbox", label = "Acute seizures?", value = TRUE),
+           checkboxInput("etoh", label = "Alcohol present at time of hospitalization?", value = NULL),
+           checkboxInput("acute_sz", label = "Acute seizures?", value = NULL),
            
            
            h3(strong("Pre-Injury Information")),
-           checkboxInput("checkbox", label = "Pre-Injury history of incarcaration?", value = TRUE),
-           checkboxInput("checkbox", label = "Pre-Injury psych hospitalization/institutionalization?", value = TRUE),
-           checkboxInput("checkbox", label = "History of neurodegenerative disease?", value = TRUE))
+           checkboxInput("incarcerate", label = "Pre-Injury history of incarcaration?", value = NULL),
+           checkboxInput("psychhosp", label = "Pre-Injury psych hospitalization/institutionalization?", value = NULL),
+           checkboxInput("neurodegen", label = "History of neurodegenerative disease?", value = NULL))
+    
+  ,
+  mainPanel(
+    textOutput("selected_inputs"), 
+    textOutput("placeholder"),
+    plotOutput("dummy_plot"))  
+    
+    ))
 
-  ),
-)
+
+server= function(input, output) { 
+  output$selected_inputs <- renderText({
+    paste("You've selected a patient with", input$contusions, "contusion.")
+  })
+  output$placeholder <- renderText({
+  "Placeholder text. We will have other tables and output here"
+  })
+  }
+
 
 shinyApp(ui, server)
-
