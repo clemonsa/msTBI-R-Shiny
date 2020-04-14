@@ -99,6 +99,7 @@ sidebarLayout(
         div(style="vertical-align:top; width: 100px;",HTML("<br>")),
         textOutput("graph_header"),
         tags$head((tags$style("#graph_header{font-size:22px; font-weight: bold;}"))),
+        plotlyOutput('Patients')
         ) # closure to mainPanel(
       ), # closure to sidebarLayout(    
 
@@ -270,6 +271,25 @@ server= function(input, output) {
   
   observeEvent(input$reset_threshold, {
     shinyjs::reset("thresholdslider")
+  })
+  
+  # Density curves for PTE and non-PTE patients
+  PTE <- data.frame(length = rnorm(100000, 6, 2))
+  NPTE <- data.frame(length = rnorm(50000, 7, 2.5))
+  
+  #Now, combine your two dataframes into one.  First make a new column in each.
+  PTE$cat <- 'PTE'
+  NPTE$cat <- 'NPTE'
+  
+  #and combine into your new data frame Lengths
+  Lengths <- rbind(PTE, NPTE)
+  
+  output$Patients <- renderPlotly({
+    p<- ggplot(Lengths, aes(length, fill = cat )) + geom_density(alpha = 0.2) +
+      geom_vline(xintercept = input$thresholdslider, linetype = 'dashed') +
+      xlab('xlabel') + ylab('Density') +ggtitle('title') + theme(legend.title = element_blank())
+    ggplotly(p)             
+    
   })
   
 }
