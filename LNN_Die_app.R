@@ -23,7 +23,7 @@ ui3 <- fluidPage(
                sliderInput('n2', "Number of Rolls", min=1000, max=10000, value = 5000)
       ))),
     mainPanel(
-      plotOutput('LNN')
+      plotlyOutput('LNN')
       )
   )
 )
@@ -33,7 +33,7 @@ server3 <- function(input, output){
   
   r <- 1 # 'n' number of rolls; 'r' desired roll
   
-  output$LNN <- renderPlot({
+  output$LNN <- renderPlotly({
     
         roll1 <- function(n1){ # function to simulate a six-faced die roll
       die <- 1:6
