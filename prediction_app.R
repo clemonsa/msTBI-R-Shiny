@@ -2,21 +2,18 @@ library(shiny)
 library(magrittr)
 library(shinyjs)
 library(DT)
+library(plotly)
 
 ##############################################
 ###### User Interface & Input Section ########
 ##############################################
 
 ui <-  fluidPage(
-  
-  # title and author information
-  titlePanel(h1(strong("Predicting seizure events in moderate-to-severe TBI"))),
-  titlePanel(h3("Arvon Clemons II, Felix Proessl, Dominic DiSanto")),
-  
+
 # Title and Headers
   titlePanel(h1(strong("Predicting Seizure Events in Moderate-to-Severe Traumatic Brain Injury"))),
   titlePanel(h3(strong("BIOST 2094: Advanced R Computing\nFinal Presentation Shiny Application"))),
-  titlePanel(h3(strong("Arvon Clemens II, Felix Proessl, Dominic DiSanto"))),
+  titlePanel(h3(strong("Arvon Clemons II, Felix Proessl, Dominic DiSanto"))),
   div(style="vertical-align:top; width: 100px;",HTML("<br>")),
   
 sidebarLayout(
