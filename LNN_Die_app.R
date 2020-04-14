@@ -9,6 +9,7 @@
 
 library(shiny)
 library(ggplot2)
+library(plotly)
 
 ui3 <- fluidPage(
   titlePanel('Law of Large Numbers: Dice Roll'),
@@ -22,7 +23,7 @@ ui3 <- fluidPage(
                sliderInput('n2', "Number of Rolls", min=1000, max=10000, value = 5000)
       ))),
     mainPanel(
-      plotOutput('LNN')
+      plotlyOutput('LNN')
       )
   )
 )
@@ -32,7 +33,7 @@ server3 <- function(input, output){
   
   r <- 1 # 'n' number of rolls; 'r' desired roll
   
-  output$LNN <- renderPlot({
+  output$LNN <- renderPlotly({
     
         roll1 <- function(n1){ # function to simulate a six-faced die roll
       die <- 1:6
@@ -57,13 +58,13 @@ server3 <- function(input, output){
     df2 <- cbind.data.frame(num_roll2, v2_prop, v2)
     
     if(input$tabset == 'point'){
-    ggplot(df1, aes(x=num_roll1, y=v1_prop)) + geom_point(color = 'dodgerblue4') + scale_y_continuous(limits = c(0,0.25)) + 
+    g1<- ggplot(df1, aes(x=num_roll1, y=v1_prop)) + geom_point(color = 'dodgerblue4') + scale_y_continuous(limits = c(0,0.25)) + 
       geom_hline(yintercept=0.16667, color = 'goldenrod4', linetype = 'dashed') + xlab('Number of Rolls') + ylab('Proportion of 1s') +
-        ggtitle('Proportion "1" results')
+        ggtitle('Proportion "1" results'); ggplotly(g1)
     }
     else{
-      ggplot(df2, aes(x=v2)) + geom_histogram(aes(y=..density..), colour='black', fill='dodgerblue4', bins = 6) +
-               xlab('Die Results') + ggtitle('Proportion of Die Results')
+    g2 <-ggplot(df2, aes(x=v2)) + geom_histogram(aes(y=..density..), colour='black', fill='dodgerblue4', bins = 6) +
+               xlab('Die Results') + ggtitle('Proportion of Die Results'); ggplotly(g2)
     }
   })
 }
