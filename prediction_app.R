@@ -9,6 +9,9 @@ library(DT)
 
 ui <-  fluidPage(
   
+  # title and author information
+  titlePanel(h1(strong("Predicting seizure events in moderate-to-severe TBI"))),
+  titlePanel(h3("Arvon Clemons II, Felix Proessl, Dominic DiSanto")),
   
 # Title and Headers
   titlePanel(h1(strong("Predicting Seizure Events in Moderate-to-Severe Traumatic Brain Injury"))),
