@@ -1,5 +1,5 @@
-library(dplyr)
-library(magrittr)
+#library(dplyr)
+#library(magrittr)
 library(plotly)
 
 roll <- function(x){ # function to simulate a six-faced die rolled 'x' number of times
