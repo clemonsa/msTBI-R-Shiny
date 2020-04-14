@@ -10,17 +10,17 @@ library(DT)
 ui <-  fluidPage(
   
   
-# title and author information
-  titlePanel(h1(strong("Predicting seizure events in moderate-to-severe TBI"))),
+# Title and Headers
+  titlePanel(h1(strong("Predicting Seizure Events in Moderate-to-Severe Traumatic Brain Injury"))),
   titlePanel(h3(strong("BIOST 2094: Advanced R Computing\nFinal Presentation Shiny Application"))),
   titlePanel(h3(strong("Arvon Clemens II, Felix Proessl, Dominic DiSanto"))),
   div(style="vertical-align:top; width: 100px;",HTML("<br>")),
   
-# section for input of information/data
 sidebarLayout(
-  sidebarPanel(
-    
-    
+  
+  
+  # Sidebar (Input Section)
+    sidebarPanel(
       # Imaging Inputs (SDH, EDH, CT Fragment)    
            h2(strong("Input Dashboard")),
            shinyjs::useShinyjs(),
@@ -33,7 +33,7 @@ sidebarLayout(
            checkboxInput("edh", label = "Epidural Hematoma", value = NULL),
 
            
-      # CT Dropdown
+      # Contusions Dropdown
            selectInput("contusion_num", h3(strong("Number of Contusions:")),
                        c("0" = 0,
                          "1" = 1,
@@ -57,59 +57,76 @@ sidebarLayout(
            h3(strong("Pre-Injury Information")),
            checkboxInput("incarcerate", label = "Pre-Injury History of Incarcaration", value = NULL),
            checkboxInput("psychhosp", label = "Pre-Injury Psychiatric Hospitalization/Institutionalization", value = NULL),
-           checkboxInput("neurodegen", label = "Pre-Injury Diagnosis of Neurodegenerative Disease", value = NULL)),
+           checkboxInput("neurodegen", label = "Pre-Injury Diagnosis of Neurodegenerative Disease", value = NULL)
+     
+  ), # closure to sidebarPanel(
   
   
+    
+  # mainPanel: output section for tabular and plotted results
+    mainPanel(
+        textOutput("bg_header"),
+        tags$head((tags$style("#bg_header{font-size:22px; font-weight: bold;}"))),
 
-# mainPanel: output section for tabular and plotted results
-  mainPanel(
-    textOutput("bg_header"),
-    tags$head((tags$style("#bg_header{font-size:22px; font-weight: bold;}"))),
-
-    div(style="vertical-align:top; width: 100px;",HTML("<br>")),
-    textOutput("instructional_text"),
-    tags$head((tags$style("#instructional_text{font-size:16px;}"))),
-
-    div(style="vertical-align:top; width: 100px;",HTML("<br>")),
-    textOutput("calculation_header"),
-    tags$head((tags$style("#calculation_header{font-size:22px; font-weight: bold;}"))),
-
-    div(style="vertical-align:top; width: 100px;",HTML("<br>")),
-    textOutput("logit_formula_text"),
-    tags$head((tags$style("#logit_formula_text{font-size:16px;}"))),
-
+        div(style="vertical-align:top; width: 100px;",HTML("<br>")),
         
-    tabPanel("Diagnostics", 
-             withMathJax(uiOutput("logit_formula")),
-    ),
-    
-    
-    div(style="vertical-align:top; width: 100px;",HTML("<br>")),
-    textOutput("phat_text"),
-    tags$head((tags$style("#phat_text{font-size:16px;}"))),
-
+        textOutput("bg_subheader"),
+        tags$head((tags$style("#bg_subheader{font-size:18px; font-style:italic; font-weight: bold;}"))),
         
-    tabPanel("Diagnostics", 
-             withMathJax(uiOutput("pred_prob_calc")),
-    ),
+        textOutput("bg_text"),
+        tags$head((tags$style("#bg_text{font-size:16px;}"))),
+      
+        div(style="vertical-align:top; width: 100px;",HTML("<br>")),
+      
+        textOutput("instructions_subheader"),
+        tags$head((tags$style("#instructions_subheader{font-size:18px; font-style:italic; font-weight: bold;}"))),
+        
+        textOutput("instructional_text"),
+        tags$head((tags$style("#instructional_text{font-size:16px;}"))),
     
-    textOutput("tabular_header"),
-    tags$head((tags$style("#tabular_header{font-size:22px; font-weight: bold;}"))),
-    div(style="vertical-align:top; width: 100px;",HTML("<br>")),
-    
-    dataTableOutput("output_table"),
-    div(style="vertical-align:top; width: 100px;",HTML("<br>")),
-    sliderInput("thresholdslider", "Manually Set Classification Threshold", min=0, max=1,value = 0.110563, width = "600px", round = -4, step = 0.001),
-    actionButton("reset_threshold", "Reset to Default Classification Threshold"),
-    div(style="vertical-align:top; width: 100px;",HTML("<br>")),
-    
-    div(style="vertical-align:top; width: 100px;",HTML("<br>")),
-    textOutput("graph_header"),
-    tags$head((tags$style("#graph_header{font-size:22px; font-weight: bold;}"))))
-    
+        div(style="vertical-align:top; width: 100px;",HTML("<br>")),
+        
+        textOutput("tabular_header"),
+        tags$head((tags$style("#tabular_header{font-size:22px; font-weight: bold;}"))),
+        div(style="vertical-align:top; width: 100px;",HTML("<br>")),
+        
+        dataTableOutput("output_table"),
+        div(style="vertical-align:top; width: 100px;",HTML("<br>")),
+        sliderInput("thresholdslider", "Manually Set Classification Threshold", min=0, max=1,value = 0.110563, width = "600px", round = -4, step = 0.001),
+        actionButton("reset_threshold", "Reset to Default Classification Threshold"),
+        div(style="vertical-align:top; width: 100px;",HTML("<br>")),
+        
+        div(style="vertical-align:top; width: 100px;",HTML("<br>")),
+        textOutput("graph_header"),
+        tags$head((tags$style("#graph_header{font-size:22px; font-weight: bold;}"))),
+        ) # closure to mainPanel(
+      ), # closure to sidebarLayout(    
 
-),
-)
+
+    # Footer Equations/Notes
+      hr(),
+
+      div(style="vertical-align:top; width: 100px;",HTML("<br>")),
+      textOutput("calculation_header"),
+      tags$head((tags$style("#calculation_header{font-size:22px; font-weight: bold;}"))),
+
+      div(style="vertical-align:top; width: 100px;",HTML("<br>")),
+      textOutput("logit_formula_text"),
+      tags$head((tags$style("#logit_formula_text{font-size:16px;}"))),
+      
+      
+      tabPanel("Diagnostics", 
+               withMathJax(uiOutput("logit_formula"))),
+      
+      div(style="vertical-align:top; width: 100px;",HTML("<br>")),
+      textOutput("phat_text"),
+      tags$head((tags$style("#phat_text{font-size:16px;}"))),
+      
+      
+      tabPanel("Diagnostics", 
+               withMathJax(uiOutput("pred_prob_calc")))
+
+) # closure to fluid page(
 
 #######################################################
 ############ Behind the Scenes Functions# ############# 
@@ -149,11 +166,11 @@ perform_mat <- read.csv("Threshold_Performance_Mat.csv")
       return(list(sens=new_sens, spec=new_spec))
     }
 
+    
   
 #######################################################
 ########### Server and Output Information ############# 
 #######################################################
-
 
 server= function(input, output) { 
   
@@ -163,12 +180,26 @@ server= function(input, output) {
   output$bg_header <- renderText({
     "Instructions & Relevant Information"
   })
-
-  output$instructional_text <- renderText({
-    "We need to add some background info. Maybe 3-5 sentences about how to use the app, what data elements represent,\nand a holder sentence for checking out the publiation or contacting the research group."
+  
+  output$bg_subheader <- renderText({
+    "Background"
   })
   
-    output$calculation_header <- renderText({
+  output$bg_text <- renderText({
+    "The present application uses results from Amy Wagner's research group from the University of Pittsburgh School of Medicine's Department of Physical Medicine & Rehabilitation.
+    The prediction model used comes from the unpublished work \"A Prognostic Model of Seizure Events Following Moderate-to-Severe Traumatic Brain Injury\" (Breslin et al, 2020; In preparation)."
+  })
+  
+  output$instructions_subheader <- renderText({
+    "Instructions"
+  })
+  
+  output$instructional_text <- renderText({
+    "Enter patient information in the sidepanel to the left. Output information is included in the table and graphic below. Reset buttons are included to return default values for new patient input. 
+    The classification threshold can be altered using the sliding bar. The default threshold value of 0.111 was chosen to maximize sensitivity for a specificity of greater than or equal to 0.60 (60%)."
+  })
+  
+  output$calculation_header <- renderText({
     "Calculations & Analytic Background"
   })
 
@@ -182,18 +213,12 @@ server= function(input, output) {
     
   output$logit_formula <- renderUI({
     return(HTML(paste0("<p> $$logit(\\hat{p}) = -0.3162 + (TBI Severity) \\times 0.289 + (EDH) \\times 0.313 +
-                       (Neurodegenerative Disorder) \\times 0.386 + $$ 
-                       \n 
-                       $$ (Craniotomy) \\times 0.399 + (Psych Hospitalization) \\times 0.434 + 
-                       (SDH) \\times 0.465 + (Alchol Presence) \\times 0.484 +$$
+                       (Neurodegenerative Disorder) \\times 0.386 + (Craniotomy) \\times 0.399 + (Psych Hospitalization) \\times 0.434 + 
+                       (SDH) \\times 0.465 + (Alchol Presence) \\times 0.484 + $$
                        \n
-                       $$ (Contusions (1)) \\times 0.248 + (Contusions (2)) \\times 0.303 +
-                       (Contusions (3)) \\times 0.519 + $$
-                       \n
-                       $$ (Contusions (4+)) \\times 0.523 + (Incarceration) \\times 0.555 + 
-                       (Intracranial Fragments) \\times 0.758 +$$
-                       \n
-                       $$ (Craniectomy) \\times 1.197 + (Acute Seizures) \\times 1.352•$$ </p>")))
+                       $$ (Contusions (1)) \\times 0.248 + (Contusions (2)) \\t!imes 0.303 +
+                       (Contusions (3)) \\times 0.519 + (Contusions (4+)) \\times 0.523 + (Incarceration) \\times 0.555 + 
+                       (Intracranial Fragments) \\times 0.758 + (Craniectomy) \\times 1.197 + (Acute Seizures) \\times 1.352.$$ </p>")))
   })
   
   
