@@ -2,6 +2,8 @@ library(shiny)
 library(magrittr)
 library(shinyjs)
 library(DT)
+library(ggplot2)
+library(ggthemes)
 library(plotly)
 
 ##############################################
@@ -273,21 +275,23 @@ server= function(input, output) {
     shinyjs::reset("thresholdslider")
   })
   
-  # Density curves for PTE and non-PTE patients
-  PTE <- data.frame(length = rnorm(100000, 6, 2))
-  NPTE <- data.frame(length = rnorm(50000, 7, 2.5))
+  # Create data.frame of percentiles
+  prange <- seq(0, 1, 0.001)
+  Percentiles <- data.frame(sapply(prange, quantile_fun2))
   
-  #Now, combine your two dataframes into one.  First make a new column in each.
-  PTE$cat <- 'PTE'
-  NPTE$cat <- 'NPTE'
+  PTE <- Percentiles[2, ]; PTE <- unlist(PTE); PTE <- data.frame(PTE); colnames(PTE) <- 'percent'
+  NPTE <- Percentiles[3, ]; NPTE <- unlist(NPTE); NPTE <- data.frame(NPTE); colnames(NPTE) <- 'percent'
   
-  #and combine into your new data frame Lengths
-  Lengths <- rbind(PTE, NPTE)
+  PTE$cat <- 'PTE'; NPTE$cat <- 'No PTE'
   
+  Patients <- rbind(PTE, NPTE);
+  
+ 
   output$Patients <- renderPlotly({
-    p<- ggplot(Lengths, aes(length, fill = cat )) + geom_density(alpha = 0.2) +
+    p<- ggplot(Patients, aes(percent, fill = cat )) + geom_density(alpha = 0.2) +
       geom_vline(xintercept = input$thresholdslider, linetype = 'dashed') +
-      xlab('xlabel') + ylab('Density') +ggtitle('title') + theme(legend.title = element_blank())
+      theme(legend.title = element_blank()) + 
+      xlab('Threshold Percentage') + ylab('Density') + ggtitle('Post-Traumatic Seizures Risk')
     ggplotly(p)             
     
   })
