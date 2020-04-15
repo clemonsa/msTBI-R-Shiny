@@ -68,11 +68,27 @@ ui <- fluidPage(
 #######################################################
 
 
+#Create data.frame for model
+
+set.seed(04272000)
+
+n <- 4083; m <- 614
+Obs_ID <- 1:n
+Phat <- runif(n)
+Observed_Event <- round(runif(n))
+Predicted_Event <- round(runif(n))
+
+phats <- data.frame(Obs_ID, Phat, Observed_Event, Predicted_Event)
+
+threshold <- seq(from=0.05, to=0.85, length.out = m)
+sensitivity <- seq(from= 1, to = 0, along.with = threshold)
+specificity <- seq(from = 0, to = 1, along.with = threshold)
+
+perform_mat <- data.frame(threshold, sensitivity, specificity)
+
 # Importing Data
-phats <- read.csv("Sparse_GLM_Phat_DeID.csv")
 phats_event <- phats[phats$Observed_Event==1,]
 phats_nonevent <- phats[phats$Observed_Event==0,]
-perform_mat <- read.csv("Threshold_Performance_Mat.csv")
 
 # Calculating Phat and Calculating Status
 pred_prob_func <- function(input) {

@@ -277,7 +277,7 @@ server= function(input, output) {
   
   # Create data.frame of percentiles
   prange <- seq(0, 1, 0.001)
-  Percentiles <- data.frame(sapply(prange, quantile_fun2))
+  Percentiles <- data.frame(sapply(prange, quantile_fun))
   
   PTE <- Percentiles[2, ]; PTE <- unlist(PTE); PTE <- data.frame(PTE); colnames(PTE) <- 'percent'
   NPTE <- Percentiles[3, ]; NPTE <- unlist(NPTE); NPTE <- data.frame(NPTE); colnames(NPTE) <- 'percent'
