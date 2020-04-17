@@ -79,7 +79,7 @@ Observed_Event <- round(runif(n))
 Predicted_Event <- round(runif(n))
 
 phats <- data.frame(Obs_ID, Phat, Observed_Event, Predicted_Event)
-
+phats_graph <- phats %>% mutate(`Seizure Event Status` = ifelse(Observed_Event==1, "Seizure Event", "No Seizure Event"))
 threshold <- seq(from=0.05, to=0.85, length.out = m)
 sensitivity <- seq(from= 1, to = 0, along.with = threshold)
 specificity <- seq(from = 0, to = 1, along.with = threshold)
@@ -102,10 +102,15 @@ pred_prob_func <- function(input) {
 
 
 # Determining theoretical patient quantile
-quantile_fun <- function(input) {
-  total_percent <- nrow(phats[phats[,"Phat"]<pred_prob_func(input)$pred_prob,]) / nrow(phats)  
-  pte_percent <- nrow(phats_event[phats_event[,"Phat"]<pred_prob_func(input)$pred_prob,]) / nrow(phats_event)  
-  nonpte_percent <- nrow(phats_nonevent[phats_nonevent[,"Phat"]<pred_prob_func(input)$pred_prob,]) / nrow(phats_nonevent)  
+quantile_fun <- function(input=NULL, value=NULL) {
+  if((is.null(input) & is.null(value)) | (!is.null(input) & !is.null(value))) stop("Please enter information for either only input OR value. Not both")
+  if(is.null(input)) pred_prob_val <- value
+  if(is.null(value)) pred_prob_val <-  pred_prob_func(input)$pred_prob
+  
+  total_percent <- nrow(phats[phats[,"Phat"] < pred_prob_val,]) / nrow(phats)  
+  pte_percent <- nrow(phats_event[phats_event[,"Phat"] < pred_prob_val,]) / nrow(phats_event)  
+  nonpte_percent <- nrow(phats_nonevent[phats_nonevent[,"Phat"] < pred_prob_val,]) / nrow(phats_nonevent)  
+  
   return(list(total_percent=total_percent, pte_percent=pte_percent, nonpte_percent=nonpte_percent))
 }
 
@@ -139,23 +144,21 @@ server <- function(input, output) {
   })
   
   # Create data.frame of percentiles
-  prange <- seq(0, 1, 0.001)
-  Percentiles <- data.frame(sapply(prange, quantile_fun))
-  
-  PTE <- Percentiles[2, ]; PTE <- unlist(PTE); PTE <- data.frame(PTE); colnames(PTE) <- 'percent'
-  NPTE <- Percentiles[3, ]; NPTE <- unlist(NPTE); NPTE <- data.frame(NPTE); colnames(NPTE) <- 'percent'
-  
-  PTE$cat <- 'PTE'; NPTE$cat <- 'No PTE'
-  
-  Patients <- rbind(PTE, NPTE);
   
   
   output$Patients <- renderPlotly({
-    p<- ggplot(Patients, aes(percent, fill = cat )) + geom_density(alpha = 0.2) +
+    phats_graph$`Total Percentile` <- unlist(t(sapply(phats_graph$Phat, function(x) quantile_fun(value=x)))[,1])
+    phats_graph$`PTS Percentile` <- unlist(t(sapply(phats_graph$Phat, function(x) quantile_fun(value=x)))[,2])
+    phats_graph$`No PTS Percentile` <- unlist(t(sapply(phats_graph$Phat, function(x) quantile_fun(value=x)))[,3])
+    
+    int_plot <- ggplot(phats_graph, aes(pts_per=`No PTS Percentile`)) + geom_density(aes(x=Phat, fill = `Seizure Event Status`), alpha=0.5) +
       geom_vline(xintercept = input$thresholdslider, linetype = 'dashed') +
-      theme(legend.title = element_blank()) + 
-      xlab('Threshold Percentage') + ylab('Density') + ggtitle('Post-Traumatic Seizures Risk')
-    ggplotly(p)             
+      geom_vline(xintercept = pred_prob_func(input)$pred_prob) +
+      xlab('Threshold Percentage') + ylab('Density') +
+      theme_minimal() + scale_fill_manual(values=c("#5D3A9B", "#E66100"), name="")
+    
+    
+    ggplotly(int_plot, tooltip=c("x", "pts_per"))             
     
   })
   
