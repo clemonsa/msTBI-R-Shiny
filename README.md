@@ -1,6 +1,6 @@
 # Predicting Seizure Events Following Moderate-to-Severe Traumatic Brain Injury
-Updated: 4.23.2020
-**PTS** - Post-Traumatic Seizures
+Updated: 4.23.2020  
+**PTS** - Post-Traumatic Seizures  
 **TBI** - Traumatic Brain Injury
 
 This is a preliminary application developed from work conducted under Dr. Amy Wagner from the University of Pittsburgh, developing a grouped LASSO logistic regression prediction model of post-traumatic seizure events. The application is currently in its early stages, with a number of potential improvements planned, including but not limited to the brief list below:
