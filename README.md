@@ -7,7 +7,7 @@ This is a preliminary application developed from work conducted under Dr. Amy Wa
 
 *N.B.* This application was preliminary developed as a course project in the University of Pittsburgh Graduate School of Public Health's Department of Biostatistics course: BIOST2094 Advanced R Computing. This work was developed by Arvon Clemens II, Felix Proessl, and Dominic DiSanto. 
 
-Following completion of the course (4/14/2020), the application has continued to undergo development under supervision of Dr. Amy Wagner, is currently mainted by Dominic DiSanto.
+Following completion of the course (4/14/2020), the application has continued to undergo development under supervision of Dr. Amy Wagner and is currently mainted by Dominic DiSanto (jdd65@pitt.edu / jdominicdisanto@gmail.com).
 
 
 **Pending/Potential Additions & Changes**
