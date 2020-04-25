@@ -1,5 +1,5 @@
 # Predicting Seizure Events Following Moderate-to-Severe Traumatic Brain Injury
-Updated: 4.23.2020  
+***Updated***: *4.23.2020*  
 **PTS** - Post-Traumatic Seizures  
 **TBI** - Traumatic Brain Injury
 
