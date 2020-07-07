@@ -25,3 +25,4 @@ Following completion of the course (4/14/2020), the application has continued to
 	-   e.g. "acute seizures=electroencephalographic or symptomatic evidence of a seizure during acute care hospitalization", "neurodegenerative disease may be derived from ICD diagnosis codes or taken from medical records or patient reported history", etc. 
 - Exportable spreadsheet option to store results in a document that individual physicians can use to track patients, inputs into app
 	- Including a blank/free text entry field for "Patient ID" spot when a "save record" box is checked
+- A more general note, but additional information can always be added to the Background section of the application itself as well as to this ReadMe document
