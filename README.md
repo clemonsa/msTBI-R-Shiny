@@ -1,21 +1,24 @@
 # Predicting Seizure Events Following Moderate-to-Severe Traumatic Brain Injury
-***Updated***: *4.23.2020*  
+***Updated***: *7.7.2020*  
 **PTS** - Post-Traumatic Seizures  
 **TBI** - Traumatic Brain Injury
 
 This is a preliminary application developed from work conducted under Dr. Amy Wagner from the University of Pittsburgh, developing a grouped LASSO logistic regression prediction model of post-traumatic seizure events. The application is currently in its early stages, with a number of potential improvements planned, including but not limited to the brief list below:
 
-*N.B.* This application was preliminary developed as a course project in the University of Pittsburgh Graduate School of Public Health's Department of Biostatistics course: BIOST2094 Advanced R Computing. This work was developed by Arvon Clemens II, Felix Proessl, and Dominic DiSanto. 
 
-Following completion of the course (4/14/2020), the application has continued to undergo development under supervision of Dr. Amy Wagner and is currently mainted by Dominic DiSanto (jdd65@pitt.edu / jdominicdisanto@gmail.com).
+
+**Project Management Notes**
+This application was preliminary developed as a course project in the University of Pittsburgh Graduate School of Public Health's Department of Biostatistics course: BIOST2094 Advanced R Computing. This work was developed by Arvon Clemens II, Felix Proessl, and Dominic DiSanto. 
+
+Following completion of the course (4/14/2020), the application has continued to undergo development under supervision of Dr. Amy Wagner and is currently maintained by Dominic DiSanto (jdd65@pitt.edu / jdominicdisanto@gmail.com).
+
 
 
 **Pending/Potential Additions & Changes**
-- Update this README to be more useful, comprehensive
 - Adding year 1 model page/tab
 - Adding acute seizureless model page/tab
-- Adding PPV, NPV to performance
-- Separating model performance data table from patient output table 
+- Adding PPV, NPV to performance table metrics
+	Likely necessitates separating model performance data table (PPV, NPV, Sens, Spec) from patient output table (predicted probability, classification, percentiles) due to spacing/readability
 - Look into other plotting packages to allow for more effiecient, reactive plotting if possible (plotly object seems slow to render)
 - Make plotly hoverover text include additional information, namely percentiles
 - Include more explicit definitions for all abbreviations and variables, including information relevant to data source/collection of information 
