@@ -228,9 +228,9 @@ ui <-  fluidPage(
       
       div(style="vertical-align:top; width: 100px;",HTML("<br>")),
       h3(strong("Visual Summary")),
-      tags$head((tags$style("#graph_header{font-size:22px; font-weight: bold;}")))#,
+      tags$head((tags$style("#graph_header{font-size:22px; font-weight: bold;}"))),
       
-      # plotlyOutput('int_plot')
+      plotlyOutput('int_plot')
       
     ) # closure to mainPanel(
   ), # closure to sidebarLayout(    
