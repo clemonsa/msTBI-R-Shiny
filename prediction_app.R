@@ -1,8 +1,8 @@
 # Seizure Event Prediction Following Brain Injury
 # Originally written April 2020 by Dominic DiSanto, Arvon Clemens, Felix Proessl as a Final Project for Advanced R Computing 
 # Currently updated/maintained by: Dominic DiSanto (jdominicdisanto@gmail.com)
-# Last Updated: 6/9/2020
-# Version: 0.6
+# Last Updated: 7/7/2020
+# Version: 0.7
 
 # For more information, please visit 
 # https://github.com/domdisanto/PostTBI_SeizurePrediction_App/blob/master/README.md 
